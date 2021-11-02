@@ -61,5 +61,18 @@ insert into Mark(SubId, StudentId, Mark, ExamTimes)
 values (1,1,8,1),
        (1,2,10,2),
        (2,1,12,1);
-
+select * from Student;
+select * from Student where Address = 'Ha Noi';
+select * from Student where Student.StudentName like '%u%';
+select * from Subject where Credit<10;
+select S.StudentId, S.StudentName, C.ClassName
+from Class C join Student S on C.ClassID = S.ClassId;
+select S.StudentId, S.StudentName, C.ClassName
+from Student S join Class C on C.ClassID = S.ClassId
+where C.ClassName = 'A1';
+select S.StudentId, S.StudentName, Sub.Subname, M.Mark
+from Student S join mark m on S.StudentId = M.StudentId join Subject Sub on M.SubId = Sub.SubId
+select S.StudentId, S.StudentName, Sub.Subname, M.Mark
+from Student S join mark m on S.StudentId = M.StudentId join Subject Sub on m.SubId = Sub.SubId
+where SubName = 'CF';
 
