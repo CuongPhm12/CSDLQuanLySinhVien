@@ -71,12 +71,12 @@ select S.StudentId, S.StudentName, C.ClassName
 from Student S join Class C on C.ClassID = S.ClassId
 where C.ClassName = 'A1';
 select S.StudentId, S.StudentName, Sub.Subname, M.Mark
-from Student S join mark m on S.StudentId = M.StudentId join Subject Sub on M.SubId = Sub.SubId
+from Student S join mark m on S.StudentId = M.StudentId join Subject Sub on M.SubId = Sub.SubId;
 select S.StudentId, S.StudentName, Sub.Subname, M.Mark
 from Student S join mark m on S.StudentId = M.StudentId join Subject Sub on m.SubId = Sub.SubId
 where SubName = 'CF';
 # Hiển thị tất cả các sinh viên có tên bắt đầu bảng ký tự ‘h’
-select StudentName from Student where StudentName like 'h%'
+select StudentName from Student where StudentName like 'h%';
 
 #     Hiển thị các thông tin lớp học có thời gian bắt đầu vào tháng 12.
 select StartDate from Class where MONTH(StartDate) = 12;
@@ -95,3 +95,21 @@ from((mark m
     join student s on m.StudentId = s.StudentId)
     join Subject sub on  m.SubId = Sub.SubId)
 order by Mark asc;
+# Sử dụng hàm count để hiển thị số lượng sinh viên ở từng nơi
+select Address, count(StudentId) as 'Số lượng học viên'
+from Student
+group by Address;
+# Tính điểm trung bình các môn học của mỗi học viên bằng cách sử dụng hàm AVG
+select s.StudentId, s.StudentName, avg(mark)
+from student s join mark m on s.StudentId = m.StudentId
+group by s.StudentId, s.StudentName;
+#     Hiển thị những bạn học viên co điểm trung bình các môn học lớn hơn 15
+select s.StudentId, s.StudentName, avg(mark) as 'Điểm TB môn'
+from student s join mark m on s.StudentId = m.StudentId
+group by s.StudentId, s.StudentName
+having avg(mark) >15;
+# Hiển thị thông tin các học viên có điểm trung bình lớn nhất.
+select s.StudentId, s.StudentId, avg(mark)
+from Student s join mark m on s.StudentId = m.StudentId
+group by s.StudentId, s.StudentId
+having avg(mark) >= all(select avg(mark ) from mark group by mark.StudentId)
