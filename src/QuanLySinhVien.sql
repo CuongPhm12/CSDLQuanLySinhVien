@@ -108,8 +108,29 @@ select s.StudentId, s.StudentName, avg(mark) as 'Điểm TB môn'
 from student s join mark m on s.StudentId = m.StudentId
 group by s.StudentId, s.StudentName
 having avg(mark) >15;
+
 # Hiển thị thông tin các học viên có điểm trung bình lớn nhất.
 select s.StudentId, s.StudentId, avg(mark)
 from Student s join mark m on s.StudentId = m.StudentId
 group by s.StudentId, s.StudentId
-having avg(mark) >= all(select avg(mark ) from mark group by mark.StudentId)
+having avg(mark) >= all(select avg(mark ) from mark group by mark.StudentId);
+
+#     Hiển thị tất cả các thông tin môn học (bảng subject) có credit lớn nhất.
+select sub.SubId, sub.Subname, sub.credit
+from subject sub
+having Credit >=all(select credit from subject group by sub.SubId);
+
+# Hiển thị các thông tin môn học có điểm thi lớn nhất.
+
+select sub.SubId, sub.SubName, sub.Credit, mark.Mark
+from subject sub join mark
+having mark >=all(select mark from mark group by mark.SubId);
+
+# Hiển thị các thông tin sinh viên và điểm trung bình của mỗi sinh viên, xếp hạng theo thứ tự điểm giảm dần
+# select s.StudentId, s.StudentName, s.Address, avg(mark) as 'Điểm TB'
+select s.StudentName,avg(Mark)
+from Student s left join Mark m on s.StudentId = m.StudentId
+group by s.StudentName
+order by  avg(Mark) desc,StudentName
+
+
